@@ -1,224 +1,1354 @@
-# Build a completely new design - Dark Mode with Neon accents
-
-html_content = '''<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Analysis & Design - Question Bank</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>System Analysis & Design Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        body { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); min-height: 100vh; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .neon-text {
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3);
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        .neon-border {
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2), inset 0 0 15px rgba(139, 92, 246, 0.05);
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
         }
-        .btn-true {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-        .btn-true:hover {
-            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
-            transform: translateY(-2px);
-        }
-        .btn-false {
-            background: transparent;
-            border: 2px solid #ef4444;
-            color: #ef4444;
-        }
-        .btn-false:hover {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+
+        .header {
+            text-align: center;
             color: white;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-            transform: translateY(-2px);
+            margin-bottom: 30px;
         }
-        .option-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e2e8f0;
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
         }
-        .option-btn:hover {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-            border-color: #8b5cf6;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-            transform: translateY(-2px);
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .pulse-glow {
-            animation: pulseGlow 2s ease-in-out infinite;
+
+        /* Mode Selection */
+        .mode-selection {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.4); }
+
+        .mode-btn {
+            padding: 20px 40px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            color: white;
+            min-width: 250px;
         }
-        .correct-glow {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5) !important;
-            border-color: #10b981 !important;
+
+        .mode-tf {
+            background: linear-gradient(135deg, #667eea, #764ba2);
         }
-        .wrong-glow {
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5) !important;
-            border-color: #ef4444 !important;
+
+        .mode-mcq {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
         }
+
+        .mode-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Score Board */
+        .score-board {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-item .number {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .score-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .correct { color: #22c55e; }
+        .wrong { color: #ef4444; }
+        .total { color: #667eea; }
+
         .progress-bar {
-            background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
-            height: 4px;
-            border-radius: 2px;
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
             transition: width 0.5s ease;
+        }
+
+        .progress-tf { background: linear-gradient(90deg, #667eea, #764ba2); }
+        .progress-mcq { background: linear-gradient(90deg, #11998e, #38ef7d); }
+
+        /* Question Card */
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-number {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .question-number-tf { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .question-number-mcq { background: linear-gradient(135deg, #11998e, #38ef7d); }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        /* True/False Buttons */
+        .tf-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .btn-true {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .btn-false {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* MCQ Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            text-align: right;
+            background: white;
+            color: #1f2937;
+        }
+
+        .option-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            margin-left: 12px;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .letter-tf { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .letter-mcq { background: linear-gradient(135deg, #11998e, #38ef7d); }
+
+        /* Answer States */
+        .correct-answer {
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534 !important;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .wrong-answer {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .selected-wrong {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+
+        /* Feedback */
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback.correct-answer {
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            color: #166534;
+        }
+
+        .feedback.wrong-answer {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+        }
+
+        .feedback-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .feedback-text {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Navigation Buttons */
+        .next-btn {
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            font-family: 'Cairo', sans-serif;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn-tf { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .next-btn-mcq { background: linear-gradient(135deg, #11998e, #38ef7d); }
+
+        .next-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #4b5563;
+            transform: scale(1.05);
+        }
+
+        /* Results Screen */
+        .results-screen {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .results-screen h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+
+        .score-tf {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .score-mcq {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .restart-tf { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .restart-mcq { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .restart-home { background: linear-gradient(135deg, #6b7280, #4b5563); }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Hidden sections */
+        .hidden { display: none !important; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .question-text {
+                font-size: 1.1rem;
+            }
+            .btn, .option-btn {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+            .mode-btn {
+                min-width: 200px;
+                padding: 15px 25px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="glass-card rounded-3xl p-8 mb-8 text-center pulse-glow">
-            <div class="inline-block px-4 py-1 rounded-full bg-violet-500/20 text-violet-300 text-sm font-medium mb-4 border border-violet-500/30">
-                📚 Study Mode
+<body>
+    <div class="container">
+        <!-- Home Screen -->
+        <div id="home-screen">
+            <div class="header">
+                <h1>📚 Analysis and Design Question Bank</h1>
+                <p>System Analysis & Design - اختار نوع الأسئلة اللي عايزة تحليها</p>
             </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-3 neon-text tracking-tight">
-                System Analysis & Design
-            </h1>
-            <p class="text-slate-400 text-lg mb-6">Interactive Question Bank</p>
-            
-            <div class="flex justify-center gap-6 text-sm flex-wrap">
-                <div class="flex items-center gap-2 bg-emerald-500/10 px-4 py-2 rounded-full border border-emerald-500/20">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-emerald-300">True/False: <strong id="tf-count" class="text-white"></strong></span>
-                </div>
-                <div class="flex items-center gap-2 bg-violet-500/10 px-4 py-2 rounded-full border border-violet-500/20">
-                    <span class="w-2 h-2 rounded-full bg-violet-400 animate-pulse"></span>
-                    <span class="text-violet-300">MCQ: <strong id="mcq-count" class="text-white"></strong></span>
-                </div>
+
+            <div class="mode-selection">
+                <button class="mode-btn mode-tf" onclick="startQuiz('tf')">
+                    ✅❌<br>TRUE/FALSE<br><small> Q 60 </small>
+                </button>
+                <button class="mode-btn mode-mcq" onclick="startQuiz('mcq')">
+                    📝<br>اMCQ<br><small>Q 50 </small>
+                </button>
             </div>
         </div>
 
-        <!-- Progress Section -->
-        <div class="glass-card rounded-2xl p-6 mb-8">
-            <div class="flex justify-between items-center mb-3">
-                <span class="text-slate-300 text-sm font-medium">Progress</span>
-                <span class="text-violet-300 text-sm font-bold" id="progress-text">0 / 110</span>
-            </div>
-            <div class="bg-slate-700/50 rounded-full h-2 overflow-hidden">
-                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-            </div>
-            <div class="flex justify-between mt-3 text-xs text-slate-500">
-                <span id="correct-count" class="text-emerald-400">✅ Correct: 0</span>
-                <span id="wrong-count" class="text-rose-400">❌ Wrong: 0</span>
-            </div>
-        </div>
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden">
+            <button class="back-btn" onclick="goHome()">← رجوع للقائمة الرئيسية</button>
 
-        <!-- True/False Section -->
-        <div class="glass-card rounded-3xl p-6 md:p-8 mb-8 neon-border">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                    <span class="text-emerald-400 text-xl">🔘</span>
+            <div class="header">
+                <h1 id="quiz-title"></h1>
+            </div>
+
+            <div class="score-board">
+                <div class="score-item">
+                    <div class="number correct" id="correct-count">0</div>
+                    <div class="label">صح ✅</div>
                 </div>
-                <h2 class="text-2xl font-bold text-white">True / False Questions</h2>
-                <span class="ml-auto text-xs bg-emerald-500/10 text-emerald-300 px-3 py-1 rounded-full border border-emerald-500/20">60 Questions</span>
-            </div>
-            <div id="tf-container" class="space-y-5"></div>
-        </div>
-
-        <!-- MCQ Section -->
-        <div class="glass-card rounded-3xl p-6 md:p-8 mb-8 neon-border">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center border border-violet-500/30">
-                    <span class="text-violet-400 text-xl">🔷</span>
+                <div class="score-item">
+                    <div class="number wrong" id="wrong-count">0</div>
+                    <div class="label">خطأ ❌</div>
                 </div>
-                <h2 class="text-2xl font-bold text-white">Multiple Choice Questions</h2>
-                <span class="ml-auto text-xs bg-violet-500/10 text-violet-300 px-3 py-1 rounded-full border border-violet-500/20">50 Questions</span>
+                <div class="score-item">
+                    <div class="number total" id="current-question">1/60</div>
+                    <div class="label">السؤال الحالي</div>
+                </div>
             </div>
-            <div id="mcq-container" class="space-y-5"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+
+            <div id="quiz-container"></div>
         </div>
 
-        <!-- Footer -->
-        <footer class="text-center text-slate-500 py-8">
-            <p class="text-sm">Made for studying <span class="text-violet-400 font-medium">System Analysis & Design</span></p>
-        </footer>
+        <!-- Results Screen -->
+        <div class="results-screen hidden" id="results-screen">
+            <div class="emoji" id="result-emoji">🎉</div>
+            <h2>انتهى الاختبار!</h2>
+            <div class="final-score" id="final-score">0/60</div>
+            <div class="result-message" id="result-message"></div>
+            <button class="restart-btn" id="restart-same-btn" onclick="restartQuiz()">🔄 إعادة نفس الاختبار</button>
+            <button class="restart-btn restart-home" onclick="goHome()">🏠 القائمة الرئيسية</button>
+        </div>
     </div>
 
     <script>
-        let answeredCount = 0;
-        let correctCount = 0;
-        let wrongCount = 0;
-        const totalQuestions = 110;
-
-        const trueFalseQuestions = [
-            { question: "Hardware includes physical equipment used for input, output, and processing.", answer: "True", explanation: "Hardware includes all physical devices like keyboards, monitors, and CPUs." },
-            { question: "Software is the application program used to control and coordinate hardware.", answer: "True", explanation: "Software provides instructions that tell hardware what to do." },
-            { question: "Data are organized facts used to generate information immediately.", answer: "False", explanation: "Data are raw, unorganized facts that need processing to become information." },
-            { question: "Database software is used for efficient access to required data.", answer: "True", explanation: "DBMS software allows efficient storage, retrieval, and management of data." },
-            { question: "A Network consists of only one computer connected to a printer.", answer: "False", explanation: "A network requires at least two connected devices to share resources." },
-            { question: "People are the most important component of an information system.", answer: "True", explanation: "People design, operate, and use information systems - they are the most critical component." },
-            { question: "System design is the process of creating a high-level architecture for a software solution.", answer: "True", explanation: "System design creates the architecture and detailed design for the solution." },
-            { question: "The System Development Life Cycle (SDLC) has only 3 stages.", answer: "False", explanation: "SDLC typically has 7 stages: Planning, Analysis, Design, Implementation, Testing, Deployment, and Maintenance." },
-            { question: "User Interface (UI) design focuses on how a user interacts with a system.", answer: "True", explanation: "UI design is specifically about the interaction between users and the system." },
-            { question: "A Centralized System means data processing occurs in one single center.", answer: "True", explanation: "In centralized systems, all processing happens at one central location." },
-            { question: "System Software includes Device Drivers and Firmware.", answer: "True", explanation: "System software includes operating systems, device drivers, and firmware." },
-            { question: "Analysis is the stage where the actual code is written.", answer: "False", explanation: "Analysis is for understanding requirements; coding happens in Implementation." },
-            { question: "Feasibility studies help determine if a project should move forward.", answer: "True", explanation: "Feasibility studies evaluate economic, technical, and operational viability." },
-            { question: "Direct cutover is a method of moving components from an old system to a new one.", answer: "True", explanation: "Direct cutover switches from old to new system immediately." },
-            { question: "Dialogue design is a sequence of information displayed to and obtained from a user.", answer: "True", explanation: "Dialogue design defines the conversation flow between user and system." },
-            { question: "Operating systems are a type of Application Software.", answer: "False", explanation: "Operating systems are System Software, not Application Software." },
-            { question: "Maintenance is the last stage of the SDLC.", answer: "True", explanation: "Maintenance is the final ongoing stage after deployment." },
-            { question: "Scalability is a decision made during the system design phase.", answer: "True", explanation: "Scalability planning happens during system design." },
-            { question: "Information systems cannot work without data.", answer: "True", explanation: "Data is the raw material that information systems process." },
-            { question: "Secondary storage is used to store data temporarily during processing.", answer: "False", explanation: "Secondary storage is for permanent storage; RAM is for temporary storage." },
-            { question: "User requirements are identified during the Design phase.", answer: "False", explanation: "User requirements are identified during the Analysis phase." },
-            { question: "Decentralized systems have a processing center for each major department.", answer: "True", explanation: "Decentralized systems distribute processing to departmental centers." },
-            { question: "Utility software is a type of system software.", answer: "True", explanation: "Utility software (antivirus, disk cleanup) is categorized as system software." },
-            { question: "Testing ensures the program is successful before client production.", answer: "True", explanation: "Testing verifies the system works correctly before going live." },
-            { question: "Dialogue diagrams use boxes with three sections.", answer: "True", explanation: "Dialogue diagrams use boxes divided into three sections for different information." },
-            { question: "System design involves making decisions about security and performance.", answer: "True", explanation: "System design includes security, performance, and other architectural decisions." },
-            { question: "A Network allows for the sharing of resources like printers.", answer: "True", explanation: "Resource sharing is a primary benefit of computer networks." },
-            { question: "Database Management Systems (DBMS) manage data storage.", answer: "True", explanation: "DBMS handles data storage, retrieval, and management." },
-            { question: "People are not considered a component of Information Systems.", answer: "False", explanation: "People are one of the five key components of information systems." },
-            { question: "Processors are considered a hardware component.", answer: "True", explanation: "Processors (CPUs) are core hardware components." },
-            { question: "System design meets the constraints of a problem.", answer: "True", explanation: "System design must work within given constraints and requirements." },
-            { question: "Analysis phase results include a clear definition of the problem.", answer: "True", explanation: "The analysis phase produces a clear problem definition and requirements." },
-            { question: "The budget for a new system is determined after it is built.", answer: "False", explanation: "Budget is determined during planning, before building the system." },
-            { question: "Monitoring for bugs occurs during the Operations and Maintenance phase.", answer: "True", explanation: "Bug monitoring and fixing is part of ongoing maintenance." },
-            { question: "Dialogue diagrams represent the sequencing of displays.", answer: "True", explanation: "Dialogue diagrams show the sequence of screen displays." },
-            { question: "Input devices are part of the hardware structure.", answer: "True", explanation: "Input devices (keyboard, mouse) are hardware components." },
-            { question: "Application software coordinates hardware components.", answer: "False", explanation: "System software coordinates hardware; application software serves user needs." },
-            { question: "Data flows are a key consideration in system design.", answer: "True", explanation: "Understanding data flows is essential for proper system design." },
-            { question: "Decentralization can improve data processing speed for specific departments.", answer: "True", explanation: "Local processing in decentralized systems can improve departmental speed." },
-            { question: "Implementation includes Direct Cutover.", answer: "True", explanation: "Direct cutover is one implementation strategy." },
-            { question: "User Interface design includes principles for good design.", answer: "True", explanation: "UI design follows principles like consistency, simplicity, and feedback." },
-            { question: "System Analysis results include a description of the current system.", answer: "True", explanation: "Analysis documents the current system and its problems." },
-            { question: "Computer peripherals are NOT considered hardware.", answer: "False", explanation: "Peripherals (printer, scanner) are hardware components." },
-            { question: "Operations and Maintenance identify parts of a system that need improving.", answer: "True", explanation: "Maintenance identifies and implements system improvements." },
-            { question: "A bidirectional line in a dialogue diagram connects sections.", answer: "True", explanation: "Bidirectional lines show two-way communication between sections." },
-            { question: "An information system consists of unrelated components.", answer: "False", explanation: "IS components (hardware, software, data, people, procedures) are interrelated." },
-            { question: "Hardware includes input, output, and processing devices.", answer: "True", explanation: "Hardware encompasses all physical computing devices." },
-            { question: "Software is only used for entertainment purposes.", answer: "False", explanation: "Software is used for business, education, communication, and many other purposes." },
-            { question: "Data are raw facts that must be processed to become information.", answer: "True", explanation: "Raw data becomes meaningful information through processing." },
-            { question: "DBMS manages data efficiently.", answer: "True", explanation: "DBMS provides efficient data management through indexing, querying, etc." },
-            { question: "Procedures include step-by-step instructions for tasks.", answer: "True", explanation: "Procedures are documented steps for completing tasks." },
-            { question: "Human resources include programmers and system analysts.", answer: "True", explanation: "IT professionals like programmers and analysts are key human resources." },
-            { question: "The main purpose of an information system is to benefit end users.", answer: "True", explanation: "Information systems exist to support and benefit end users." },
-            { question: "ERP systems are examples of information systems.", answer: "True", explanation: "ERP (Enterprise Resource Planning) is a major type of information system." },
-            { question: "Hardware can operate effectively without software.", answer: "False", explanation: "Hardware needs software instructions to perform any useful task." },
-            { question: "System Analysis focuses mainly on programming activities.", answer: "False", explanation: "Analysis focuses on understanding requirements, not programming." },
-            { question: "The Planning Stage includes feasibility studies.", answer: "True", explanation: "Planning includes feasibility studies (economic, technical, operational)." },
-            { question: "Functional requirements describe only performance and security.", answer: "False", explanation: "Functional requirements describe what the system should do; non-functional cover performance/security." },
-            { question: "Users, clients, and technical staff are primary stakeholders.", answer: "True", explanation: "These groups have direct interest in the system's success." },
-            { question: "Prototyping is used only after system implementation.", answer: "False", explanation: "Prototyping is used early in development, before implementation." }
+        // ==================== TRUE/FALSE QUESTIONS (60) ====================
+        const tfQuestions = [
+            { q: "Hardware includes physical equipment used for input, output, and processing.", a: true, exp: "الإجابة: True - الأجهزة تشمل المعدات المادية المستخدمة للإدخال والإخراج والمعالجة." },
+            { q: "Software is the application program used to control and coordinate hardware.", a: true, exp: "الإجابة: True - البرمجيات هي البرامج التطبيقية المستخدمة للتحكم في الأجهزة وتنسيقها." },
+            { q: "Data are organized facts used to generate information immediately.", a: false, exp: "الإجابة: False - البيانات هي حقائق خام غير منظمة يتم معالجتها لاحقًا لتصبح معلومات." },
+            { q: "Database software is used for efficient access to required data.", a: true, exp: "الإجابة: True - برامج قواعد البيانات تُستخدم للوصول الفعال إلى البيانات المطلوبة." },
+            { q: "A Network consists of only one computer connected to a printer.", a: false, exp: "الإجابة: False - الشبكة هي مجموعة من الأجهزة المتصلة معًا لمشاركة الموارد." },
+            { q: "People are the most important component of an information system.", a: true, exp: "الإجابة: True - الأشخاص هم المكون الأهم في نظام المعلومات." },
+            { q: "System design is the process of creating a high-level architecture for a software solution.", a: true, exp: "الإجابة: True - تصميم النظام هو عملية إنشاء بنية عالية المستوى لحل برمجي." },
+            { q: "The System Development Life Cycle (SDLC) has only 3 stages.", a: false, exp: "الإجابة: False - SDLC يتكون عادةً من مراحل متعددة تشمل التخطيط والتحليل والتصميم والتنفيذ والصيانة." },
+            { q: "User Interface (UI) design focuses on how a user interacts with a system.", a: true, exp: "الإجابة: True - تصميم واجهة المستخدم يركز على كيفية تفاعل المستخدم مع النظام." },
+            { q: "A 'Centralized System' means data processing occurs in one single center.", a: true, exp: "الإجابة: True - النظام المركزي يعني أن معالجة البيانات تحدث في مركز واحد." },
+            { q: "System Software includes Device Drivers and Firmware.", a: true, exp: "الإجابة: True - برامج النظام تشمل برامج تشغيل الأجهزة والبرامج الثابتة (Firmware)." },
+            { q: "Analysis is the stage where the actual code is written.", a: false, exp: "الإجابة: False - البرمجة تحدث في مرحلة التنفيذ/التطوير، وليس في مرحلة التحليل." },
+            { q: "Feasibility studies help determine if a project should move forward.", a: true, exp: "الإجابة: True - دراسات الجدوى تساعد في تحديد ما إذا كان المشروع يجب أن يمضي قدمًا." },
+            { q: "Direct cutover is a method of moving components from an old system to a new one.", a: true, exp: "الإجابة: True - التحويل المباشر هو طريقة لنقل المكونات من نظام قديم إلى نظام جديد." },
+            { q: "Dialogue design is a sequence of information displayed to and obtained from a user.", a: true, exp: "الإجابة: True - تصميم الحوار هو تسلسل من المعلومات المعروضة للمستخدم والمستلمة منه." },
+            { q: "Operating systems are a type of Application Software.", a: false, exp: "الإجابة: False - أنظمة التشغيل هي نوع من برامج النظام (System Software)، وليس التطبيقات." },
+            { q: "Maintenance is the last stage of the SDLC.", a: true, exp: "الإجابة: True - الصيانة هي المرحلة الأخيرة من دورة حياة تطوير النظام." },
+            { q: "'Scalability' is a decision made during the system design phase.", a: true, exp: "الإجابة: True - 'قابلية التوسع' هي قرار يُتخذ خلال مرحلة تصميم النظام." },
+            { q: "Information systems cannot work without data.", a: true, exp: "الإجابة: True - أنظمة المعلومات لا يمكن أن تعمل بدون بيانات." },
+            { q: "Secondary storage is used to store data temporarily during processing.", a: false, exp: "الإجابة: False - التخزين الثانوي للتخزين الدائم، أما التخزين المؤقت فهو الذاكرة العشوائية (RAM)." },
+            { q: "User requirements are identified during the Design phase.", a: false, exp: "الإجابة: False - يتم تحديد متطلبات المستخدمين خلال مرحلة التحليل، وليس التصميم." },
+            { q: "Decentralized systems have a processing center for each major department.", a: true, exp: "الإجابة: True - الأنظمة اللامركزية لها مركز معالجة لكل قسم رئيسي." },
+            { q: "Utility software is a type of system software.", a: true, exp: "الإجابة: True - برامج الأدوات المساعدة هي نوع من برامج النظام." },
+            { q: "Testing ensures the program is successful before client production.", a: true, exp: "الإجابة: True - الاختبار يضمن نجاح البرنامج قبل الإنتاج للعميل." },
+            { q: "Dialogue diagrams use boxes with three sections.", a: true, exp: "الإجابة: True - مخططات الحوار تستخدم مربعات بثلاثة أقسام." },
+            { q: "System design involves making decisions about security and performance.", a: true, exp: "الإجابة: True - تصميم النظام يتضمن اتخاذ قرارات بشأن الأمان والأداء." },
+            { q: "A 'Network' allows for the sharing of resources like printers.", a: true, exp: "الإجابة: True - الشبكة تسمح بمشاركة الموارد مثل الطابعات." },
+            { q: "Database Management Systems (DBMS) manage data storage.", a: true, exp: "الإجابة: True - أنظمة إدارة قواعد البيانات تدير تخزين البيانات." },
+            { q: "People are not considered a component of Information Systems.", a: false, exp: "الإجابة: False - الأشخاص يُعتبرون مكونًا أساسيًا من مكونات نظام المعلومات." },
+            { q: "Processors are considered a hardware component.", a: true, exp: "الإجابة: True - المعالجات تُعتبر مكونًا من مكونات الأجهزة." },
+            { q: "System design meets the constraints of a problem.", a: true, exp: "الإجابة: True - تصميم النظام يلبي قيود المشكلة." },
+            { q: "Analysis phase results include a clear definition of the problem.", a: true, exp: "الإجابة: True - نتائج مرحلة التحليل تشمل تعريفًا واضحًا للمشكلة." },
+            { q: "The budget for a new system is determined after it is built.", a: false, exp: "الإجابة: False - الميزانية تحدد كجزء من دراسة الجدوى ونتائج التحليل، وليس بعد البناء." },
+            { q: "Monitoring for bugs occurs during the Operations and Maintenance phase.", a: true, exp: "الإجابة: True - مراقبة الأخطاء تحدث خلال مرحلة التشغيل والصيانة." },
+            { q: "Dialogue diagrams represent the sequencing of displays.", a: true, exp: "الإجابة: True - مخططات الحوار تمثل تسلسل العروض." },
+            { q: "Input devices are part of the hardware structure.", a: true, exp: "الإجابة: True - أجهزة الإدخال هي جزء من بنية الأجهزة." },
+            { q: "Application software coordinates hardware components.", a: false, exp: "الإجابة: False - برامج النظام (System Software) هي التي تنسق الأجهزة، أما برامج التطبيقات فتؤدي مهام محددة للمستخدمين." },
+            { q: "Data flows are a key consideration in system design.", a: true, exp: "الإجابة: True - تدفقات البيانات هي اعتبار رئيسي في تصميم النظام." },
+            { q: "Decentralization can improve data processing speed for specific departments.", a: true, exp: "الإجابة: True - اللامركزية يمكن أن تحسن سرعة معالجة البيانات للأقسام المحددة." },
+            { q: "Implementation includes the process of 'Direct Cutover'.", a: true, exp: "الإجابة: True - التنفيذ يتضمن عملية 'التحويل المباشر' (Direct Cutover)." },
+            { q: "User Interface design includes the 'Principles for good design'.", a: true, exp: "الإجابة: True - تصميم واجهة المستخدم يتضمن 'مبادئ التصميم الجيد'." },
+            { q: "System Analysis results include a description of the current system.", a: true, exp: "الإجابة: True - نتائج تحليل النظام تشمل وصفًا للنظام الحالي." },
+            { q: "Computer peripherals are NOT considered hardware.", a: false, exp: "الإجابة: False - الأجهزة الطرفية للكمبيوتر تُعتبر أجهزة (Hardware)." },
+            { q: "Operations and Maintenance identify parts of a system that need improving.", a: true, exp: "الإجابة: True - التشغيل والصيانة تحدد أجزاء النظام التي تحتاج إلى تحسين." },
+            { q: "A bidirectional line in a dialogue diagram connects sections.", a: true, exp: "الإجابة: True - الخط ثنائي الاتجاه في مخطط الحوار يربط الأقسام." },
+            { q: "An information system consists of unrelated components.", a: false, exp: "الإجابة: False - نظام المعلومات يتكون من مكونات مترابطة تعمل معًا لتحقيق هدف مشترك." },
+            { q: "Hardware includes input, output, and processing devices.", a: true, exp: "الإجابة: True - الأجهزة تشمل أجهزة الإدخال والإخراج والمعالجة." },
+            { q: "Software is only used for entertainment purposes.", a: false, exp: "الإجابة: False - البرمجيات تُستخدم في مجالات متعددة مثل البنوك والتعليم والمستشفيات وليس للترفيه فقط." },
+            { q: "Data are raw facts that must be processed to become information.", a: true, exp: "الإجابة: True - البيانات هي حقائق خام يجب معالجتها لتصبح معلومات." },
+            { q: "Database Management Systems (DBMS) manage data efficiently.", a: true, exp: "الإجابة: True - أنظمة إدارة قواعد البيانات تدير البيانات بكفاءة." },
+            { q: "Procedures include step-by-step instructions for tasks.", a: true, exp: "الإجابة: True - الإجراءات تتضمن تعليمات خطوة بخطوة للمهام." },
+            { q: "Human resources include programmers and system analysts.", a: true, exp: "الإجابة: True - الموارد البشرية تشمل المبرمجين ومحللي النظم." },
+            { q: "The main purpose of an information system is to benefit end users.", a: true, exp: "الإجابة: True - الهدف الرئيسي لنظام المعلومات هو إفادة المستخدمين النهائيين." },
+            { q: "ERP systems are examples of information systems.", a: true, exp: "الإجابة: True - أنظمة ERP هي أمثلة على أنظمة المعلومات." },
+            { q: "Hardware can operate effectively without software.", a: false, exp: "الإجابة: False - الأجهزة تحتاج إلى تعليمات برمجية لتعمل، وبدون البرامج لا يمكنها معالجة البيانات." },
+            { q: "System Analysis focuses mainly on programming activities.", a: false, exp: "الإجابة: False - تحليل النظام يركز على فهم المشكلات والمتطلبات، وليس على البرمجة." },
+            { q: "The Planning Stage includes economic, technical, and operational feasibility.", a: true, exp: "الإجابة: True - مرحلة التخطيط تتضمن دراسة الجدوى الاقتصادية والتقنية والتشغيلية." },
+            { q: "Functional requirements describe system performance and security only.", a: false, exp: "الإجابة: False - المتطلبات الوظيفية تصف الأنشطة التي يجب على النظام أداءها، أما الأداء والأمان فهي متطلبات غير وظيفية." },
+            { q: "Users, clients, and technical staff are primary stakeholders.", a: true, exp: "الإجابة: True - المستخدمون والعملاء والموظفون الفنيون هم أصحاب المصلحة الرئيسيون." },
+            { q: "Prototyping is used only after system implementation.", a: false, exp: "الإجابة: False - النماذج الأولية تُبنى خلال التحليل لدراسة الجدوى والمتطلبات." }
+        ];
+        // ==================== MCQ QUESTIONS (50) ====================
+        const mcqQuestions = [
+            {
+                q: "Which component is responsible for processing data?",
+                options: [
+                    { letter: "A", text: "Software" },
+                    { letter: "B", text: "Hardware" },
+                    { letter: "C", text: "Databases" },
+                    { letter: "D", text: "Networks" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Hardware - الأجهزة (Hardware) هي المسؤولة عن معالجة البيانات."
+            },
+            {
+                q: "'Raw facts and figures' describe which component?",
+                options: [
+                    { letter: "A", text: "Information" },
+                    { letter: "B", text: "Knowledge" },
+                    { letter: "C", text: "Data" },
+                    { letter: "D", text: "Software" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Data - 'الحقائق والأرقام الخام' تصف البيانات (Data)."
+            },
+            {
+                q: "What are the three types of software mentioned?",
+                options: [
+                    { letter: "A", text: "System, Application, Utility" },
+                    { letter: "B", text: "Primary, Secondary, Tertiary" },
+                    { letter: "C", text: "Input, Output, Storage" },
+                    { letter: "D", text: "User, Admin, Guest" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - System, Application, Utility - الأنواع الثلاثة من البرمجيات هي: برامج النظام، برامج التطبيقات، وبرامج الأدوات المساعدة."
+            },
+            {
+                q: "Which phase involves creating high-level architecture?",
+                options: [
+                    { letter: "A", text: "Planning" },
+                    { letter: "B", text: "Analysis" },
+                    { letter: "C", text: "System Design" },
+                    { letter: "D", text: "Implementation" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - System Design - مرحلة تصميم النظام هي التي تتضمن إنشاء البنية العالية المستوى."
+            },
+            {
+                q: "A set of computers connected to share resources is a:",
+                options: [
+                    { letter: "A", text: "Database" },
+                    { letter: "B", text: "Processor" },
+                    { letter: "C", text: "Network" },
+                    { letter: "D", text: "Middleware" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Network - مجموعة من الأجهزة المتصلة لمشاركة الموارد تُسمى Network (شبكة)."
+            },
+            {
+                q: "Which of these is a hardware output device?",
+                options: [
+                    { letter: "A", text: "Keyboard" },
+                    { letter: "B", text: "Mouse" },
+                    { letter: "C", text: "Printer" },
+                    { letter: "D", text: "Scanner" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Printer - الطابعة هي جهاز إخراج (Output Device)، بينما لوحة المفاتيح والفأرة والماسح الضوئي أجهزة إدخال."
+            },
+            {
+                q: "The process of designing the sequence for user interaction is:",
+                options: [
+                    { letter: "A", text: "Data Flow Design" },
+                    { letter: "B", text: "Dialogue Design" },
+                    { letter: "C", text: "Database Design" },
+                    { letter: "D", text: "Network Design" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Dialogue Design - تصميم الحوار هو عملية تصميم تسلسل التفاعل مع المستخدم."
+            },
+            {
+                q: "In which SDLC stage do you monitor for bugs?",
+                options: [
+                    { letter: "A", text: "Design" },
+                    { letter: "B", text: "Testing" },
+                    { letter: "C", text: "Operations and Maintenance" },
+                    { letter: "D", text: "Analysis" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Operations and Maintenance - مراقبة الأخطاء تحدث خلال مرحلة التشغيل والصيانة."
+            },
+            {
+                q: "Which system type has processing at each department?",
+                options: [
+                    { letter: "A", text: "Centralized" },
+                    { letter: "B", text: "Decentralized" },
+                    { letter: "C", text: "Unitary" },
+                    { letter: "D", text: "Singular" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Decentralized - النظام اللامركزي (Decentralized) يكون فيه معالجة في كل قسم."
+            },
+            {
+                q: "A 'Direct Cutover' is part of which phase?",
+                options: [
+                    { letter: "A", text: "Maintenance" },
+                    { letter: "B", text: "Design" },
+                    { letter: "C", text: "Implementation" },
+                    { letter: "D", text: "Analysis" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Implementation - التحويل المباشر (Direct Cutover) هو جزء من مرحلة التنفيذ."
+            },
+            {
+                q: "What is the goal of UI design?",
+                options: [
+                    { letter: "A", text: "To write code" },
+                    { letter: "B", text: "To design how users interact with the system" },
+                    { letter: "C", text: "To manage databases" },
+                    { letter: "D", text: "To fix hardware" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - To design how users interact with the system - هدف تصميم واجهة المستخدم هو تصميم كيفية تفاعل المستخدمين مع النظام."
+            },
+            {
+                q: "Which software is classified as System Software?",
+                options: [
+                    { letter: "A", text: "MS Word" },
+                    { letter: "B", text: "Device Drivers" },
+                    { letter: "C", text: "Games" },
+                    { letter: "D", text: "Web Browsers" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Device Drivers - برامج تشغيل الأجهزة (Device Drivers) تُصنف كبرامج نظام (System Software)."
+            },
+            {
+                q: "Analysis results include which of the following?",
+                options: [
+                    { letter: "A", text: "Final Code" },
+                    { letter: "B", text: "Hardware Purchase" },
+                    { letter: "C", text: "Feasibility study results" },
+                    { letter: "D", text: "User Manuals" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Feasibility study results - نتائج التحليل تشمل نتائج دراسة الجدوى."
+            },
+            {
+                q: "Database software is used to manage:",
+                options: [
+                    { letter: "A", text: "Physical hardware" },
+                    { letter: "B", text: "Virtual resources" },
+                    { letter: "C", text: "Knowledge bases" },
+                    { letter: "D", text: "Network cables" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Knowledge bases - برامج قواعد البيانات تُستخدم لإدارة قواعد المعرفة (Knowledge bases)."
+            },
+            {
+                q: "Dialogue diagrams use which symbol?",
+                options: [
+                    { letter: "A", text: "Circle" },
+                    { letter: "B", text: "Triangle" },
+                    { letter: "C", text: "Box with three sections" },
+                    { letter: "D", text: "Diamond" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Box with three sections - مخططات الحوار تستخدم مربعات بثلاثة أقسام."
+            },
+            {
+                q: "'Scalability' refers to:",
+                options: [
+                    { letter: "A", text: "Data size" },
+                    { letter: "B", text: "System's ability to grow" },
+                    { letter: "C", text: "Network speed" },
+                    { letter: "D", text: "User happiness" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - System's ability to grow - 'قابلية التوسع' (Scalability) تشير إلى قدرة النظام على النمو."
+            },
+            {
+                q: "SDLC stands for:",
+                options: [
+                    { letter: "A", text: "System Design Logical Cycle" },
+                    { letter: "B", text: "Software Development Life Cycle" },
+                    { letter: "C", text: "System Development Life Cycle" },
+                    { letter: "D", text: "Standard Data Line Connection" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - System Development Life Cycle - SDLC تعني دورة حياة تطوير النظام."
+            },
+            {
+                q: "Which component coordinates hardware?",
+                options: [
+                    { letter: "A", text: "Users" },
+                    { letter: "B", text: "Application Software" },
+                    { letter: "C", text: "System Software" },
+                    { letter: "D", text: "Peripheral devices" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - System Software - برامج النظام (System Software) هي التي تنسق الأجهزة."
+            },
+            {
+                q: "Data are managed using:",
+                options: [
+                    { letter: "A", text: "CPU" },
+                    { letter: "B", text: "DBMS" },
+                    { letter: "C", text: "RAM" },
+                    { letter: "D", text: "BIOS" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - DBMS - البيانات تُدار باستخدام أنظمة إدارة قواعد البيانات (DBMS)."
+            },
+            {
+                q: "'Firmware' is a type of:",
+                options: [
+                    { letter: "A", text: "Hardware" },
+                    { letter: "B", text: "Database" },
+                    { letter: "C", text: "Software" },
+                    { letter: "D", text: "Network" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Software - البرامج الثابتة (Firmware) هي نوع من البرمجيات."
+            },
+            {
+                q: "Who is the most important component of an IS?",
+                options: [
+                    { letter: "A", text: "Computers" },
+                    { letter: "B", text: "Data" },
+                    { letter: "C", text: "People" },
+                    { letter: "D", text: "Networks" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - People - الأشخاص (People) هم المكون الأهم في نظام المعلومات."
+            },
+            {
+                q: "What determines hardware structure?",
+                options: [
+                    { letter: "A", text: "Color of the office" },
+                    { letter: "B", text: "Type and size of the organization" },
+                    { letter: "C", text: "The type of internet" },
+                    { letter: "D", text: "The number of users only" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Type and size of the organization - بنية الأجهزة تُحدد بناءً على نوع وحجم المؤسسة."
+            },
+            {
+                q: "Which phase follows Analysis?",
+                options: [
+                    { letter: "A", text: "Planning" },
+                    { letter: "B", text: "Implementation" },
+                    { letter: "C", text: "System Design" },
+                    { letter: "D", text: "Maintenance" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - System Design - المرحلة التي تلي التحليل هي تصميم النظام (System Design)."
+            },
+            {
+                q: "Which involves creating a 'plan for a software solution'?",
+                options: [
+                    { letter: "A", text: "Maintenance" },
+                    { letter: "B", text: "System Design" },
+                    { letter: "C", text: "Sales" },
+                    { letter: "D", text: "Training" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - System Design - تصميم النظام يتضمن إنشاء خطة لحل برمجي."
+            },
+            {
+                q: "What does a circle or rounded rectangle represent in a DFD?",
+                options: [
+                    { letter: "A", text: "External Entity" },
+                    { letter: "B", text: "Data Store" },
+                    { letter: "C", text: "Process" },
+                    { letter: "D", text: "Data Flow" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Process - الدائرة أو المستطيل المدور في مخطط تدفق البيانات (DFD) يمثل العملية (Process)."
+            },
+            {
+                q: "Which DFD level shows the most high-level view of a system?",
+                options: [
+                    { letter: "A", text: "Level 0" },
+                    { letter: "B", text: "Level 1" },
+                    { letter: "C", text: "Level 2" },
+                    { letter: "D", text: "Level 3" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Level 0 - المستوى 0 (Level 0) يُظهر أعلى مستوى نظرة عامة للنظام."
+            },
+            {
+                q: "A data store is represented by which symbol?",
+                options: [
+                    { letter: "A", text: "Arrow" },
+                    { letter: "B", text: "Square" },
+                    { letter: "C", text: "Circle" },
+                    { letter: "D", text: "Open-ended rectangle" }
+                ],
+                correct: 3,
+                exp: "الإجابة: D - Open-ended rectangle - مخزن البيانات (Data Store) يُمثل بمستطيل مفتوح من طرف."
+            },
+            {
+                q: "Which of the following is NOT a component of a DFD?",
+                options: [
+                    { letter: "A", text: "Relationship" },
+                    { letter: "B", text: "Process" },
+                    { letter: "C", text: "Data Store" },
+                    { letter: "D", text: "External Entity" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Relationship - العلاقة (Relationship) ليست مكونًا من مكونات DFD، بل هي خاصة بمخططات العلاقة بين الكيانات (ERDs)."
+            },
+            {
+                q: "Breaking a high-level process into smaller sub-processes is called:",
+                options: [
+                    { letter: "A", text: "Normalization" },
+                    { letter: "B", text: "Decomposition" },
+                    { letter: "C", text: "Integration" },
+                    { letter: "D", text: "Encapsulation" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Decomposition - تفكيك العملية عالية المستوى إلى عمليات فرعية أصغر يُسمى التحليل (Decomposition)."
+            },
+            {
+                q: "Which DFD shows what the system does without implementation details?",
+                options: [
+                    { letter: "A", text: "Physical DFD" },
+                    { letter: "B", text: "Logical DFD" },
+                    { letter: "C", text: "Implementation DFD" },
+                    { letter: "D", text: "Context DFD" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Logical DFD - مخطط تدفق البيانات المنطقي (Logical DFD) يُظهر ما يفعله النظام بدون تفاصيل التنفيذ."
+            },
+            {
+                q: "Which of these is used to describe the logic inside a process?",
+                options: [
+                    { letter: "A", text: "Structured English" },
+                    { letter: "B", text: "Data Store" },
+                    { letter: "C", text: "External Entity" },
+                    { letter: "D", text: "Data Flow" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Structured English - الإنجليزية المنظمة (Structured English) تُستخدم لوصف المنطق داخل العملية."
+            },
+            {
+                q: "What is the main benefit of using DFDs?",
+                options: [
+                    { letter: "A", text: "Easy for technical and non-technical users to understand" },
+                    { letter: "B", text: "Shows exact hardware requirements" },
+                    { letter: "C", text: "Generates automatic code" },
+                    { letter: "D", text: "Replaces the need for testing" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Easy for technical and non-technical users to understand - الفائدة الرئيسية من DFDs هي سهولة الفهم للفنيين وغير الفنيين."
+            },
+            {
+                q: "The 'Context Diagram' contains how many processes?",
+                options: [
+                    { letter: "A", text: "Zero" },
+                    { letter: "B", text: "One" },
+                    { letter: "C", text: "Five" },
+                    { letter: "D", text: "Unlimited" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - One - مخطط السياق (Context Diagram) يحتوي على عملية واحدة فقط."
+            },
+            {
+                q: "A DFD is a tool for:",
+                options: [
+                    { letter: "A", text: "Process modeling" },
+                    { letter: "B", text: "Data modeling" },
+                    { letter: "C", text: "Network modeling" },
+                    { letter: "D", text: "Object modeling" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Process modeling - DFD هو أداة لنمذجة العمليات (Process modeling)."
+            },
+            {
+                q: "Which symbol is used for an external entity?",
+                options: [
+                    { letter: "A", text: "Square/Rectangle" },
+                    { letter: "B", text: "Circle" },
+                    { letter: "C", text: "Double Line" },
+                    { letter: "D", text: "Oval" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Square/Rectangle - الكيان الخارجي (External Entity) يُمثل بمربع/مستطيل."
+            },
+            {
+                q: "SSAD stands for:",
+                options: [
+                    { letter: "A", text: "Simple System Analysis Design" },
+                    { letter: "B", text: "Structured System Analysis Design" },
+                    { letter: "C", text: "Standard System Analysis Development" },
+                    { letter: "D", text: "Sequential System Analysis Design" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Structured System Analysis Design - SSAD تعني التحليل والتصميم المنظم للنظام."
+            },
+            {
+                q: "In a DFD, data flow can occur between:",
+                options: [
+                    { letter: "A", text: "Two data stores" },
+                    { letter: "B", text: "Two external entities" },
+                    { letter: "C", text: "A process and a data store" },
+                    { letter: "D", text: "An external entity and a data store" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - A process and a data store - في DFD، يمكن أن يحدث تدفق البيانات بين عملية ومخزن بيانات."
+            },
+            {
+                q: "The document that defines all data elements in the DFD is the:",
+                options: [
+                    { letter: "A", text: "System Manual" },
+                    { letter: "B", text: "Data Dictionary" },
+                    { letter: "C", text: "Project Plan" },
+                    { letter: "D", text: "Design Specification" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Data Dictionary - قاموس البيانات (Data Dictionary) هو المستند الذي يُعرف جميع عناصر البيانات في DFD."
+            },
+            {
+                q: "What is a 'Grey Hole' in a DFD?",
+                options: [
+                    { letter: "A", text: "A process with no output" },
+                    { letter: "B", text: "A process with no input" },
+                    { letter: "C", text: "A process where output is insufficient based on input" },
+                    { letter: "D", text: "A process that works perfectly" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - A process where output is insufficient based on input - 'الثقب الرمادي' (Grey Hole) هو عملية يكون فيها الإخراج غير كافٍ بناءً على الإدخال."
+            },
+            {
+                q: "By normalizing relations or sets of relations, one minimizes ___.",
+                options: [
+                    { letter: "A", text: "Data" },
+                    { letter: "B", text: "Fields" },
+                    { letter: "C", text: "Redundancy" },
+                    { letter: "D", text: "Database" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Redundancy - بتطبيع العلاقات، يتم تقليل التكرار (Redundancy)."
+            },
+            {
+                q: "Which of the following is NOT a component of an information system?",
+                options: [
+                    { letter: "A", text: "Hardware" },
+                    { letter: "B", text: "Software" },
+                    { letter: "C", text: "Marketing" },
+                    { letter: "D", text: "Procedures" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - Marketing - التسويق هو وظيفة تجارية، وليس مكونًا أساسيًا لنظام المعلومات."
+            },
+            {
+                q: "Raw facts before processing are called:",
+                options: [
+                    { letter: "A", text: "Information" },
+                    { letter: "B", text: "Data" },
+                    { letter: "C", text: "Output" },
+                    { letter: "D", text: "Knowledge" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Data - الحقائق الخام قبل المعالجة تُسمى بيانات (Data)."
+            },
+            {
+                q: "Which software controls hardware?",
+                options: [
+                    { letter: "A", text: "Application Software" },
+                    { letter: "B", text: "Utility Software" },
+                    { letter: "C", text: "System Software" },
+                    { letter: "D", text: "Antivirus" }
+                ],
+                correct: 2,
+                exp: "الإجابة: C - System Software - برامج النظام (مثل أنظمة التشغيل) هي التي تتحكم في الأجهزة."
+            },
+            {
+                q: "DBMS is mainly used to:",
+                options: [
+                    { letter: "A", text: "Delete hardware" },
+                    { letter: "B", text: "Manage databases" },
+                    { letter: "C", text: "Replace employees" },
+                    { letter: "D", text: "Increase CPU speed" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Manage databases - DBMS تُستخدم بشكل أساسي لإدارة قواعد البيانات."
+            },
+            {
+                q: "Which is an example of an information system?",
+                options: [
+                    { letter: "A", text: "Online banking system" },
+                    { letter: "B", text: "Mouse" },
+                    { letter: "C", text: "Printer cable" },
+                    { letter: "D", text: "Scanner only" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Online banking system - نظام الخدمات المصرفية عبر الإنترنت هو مثال على نظام معلومات."
+            },
+            {
+                q: "Procedures help organizations to:",
+                options: [
+                    { letter: "A", text: "Increase processor speed" },
+                    { letter: "B", text: "Standardize workflow" },
+                    { letter: "C", text: "Remove software" },
+                    { letter: "D", text: "Delete data" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Standardize workflow - الإجراءات تساعد المؤسسات على توحيد سير العمل."
+            },
+            {
+                q: "End users of an information system include:",
+                options: [
+                    { letter: "A", text: "Managers" },
+                    { letter: "B", text: "Accountants" },
+                    { letter: "C", text: "Engineers" },
+                    { letter: "D", text: "All of the above" }
+                ],
+                correct: 3,
+                exp: "الإجابة: D - All of the above - المستخدمون النهائيون يشملون المديرين والمحاسبين والمهندسين وغيرهم."
+            },
+            {
+                q: "An information system performs which cycle?",
+                options: [
+                    { letter: "A", text: "Delete → Ignore → Stop" },
+                    { letter: "B", text: "Input → Process → Output" },
+                    { letter: "C", text: "Print → Shut down" },
+                    { letter: "D", text: "Store → Forget" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Input → Process → Output - نظام المعلومات يقوم بدورة: إدخال → معالجة → إخراج."
+            },
+            {
+                q: "Security devices belong to:",
+                options: [
+                    { letter: "A", text: "Hardware" },
+                    { letter: "B", text: "Software" },
+                    { letter: "C", text: "Procedures" },
+                    { letter: "D", text: "Data" }
+                ],
+                correct: 0,
+                exp: "الإجابة: A - Hardware - أجهزة الأمان (مثل جدران الحماية وأجهزة القياسات الحيوية) هي مكونات مادية (Hardware)."
+            },
+            {
+                q: "Utility software is mainly used to:",
+                options: [
+                    { letter: "A", text: "Play games" },
+                    { letter: "B", text: "Maintain and protect system" },
+                    { letter: "C", text: "Build hardware" },
+                    { letter: "D", text: "Replace OS" }
+                ],
+                correct: 1,
+                exp: "الإجابة: B - Maintain and protect system - برامج الأدوات المساعدة تُستخدم بشكل أساسي للصيانة وحماية النظام."
+            }
         ];
 
-        const mcqQuestions = [
-            { question: "Which component is responsible for processing data?", options: ["Software", "Hardware", "Databases", "Networks"], answer: "Hardware", explanation: "Hardware (CPU) performs the actual data processing." },
-            { question: "Raw facts and figures describe which component?", options: ["Information", "Knowledge", "Data", "Software"], answer: "Data", explanation: "Data consists of raw, unprocessed facts and figures." },
-            { question: "What are the three types of software mentioned?", options: ["System, Application, Utility", "Primary, Secondary, Tertiary", "Input, Output, Storage", "User, Admin, Guest"], answer: "System, Application, Utility", explanation: "The three main types are System, Application, and Utility software." },
-            { question: "Which phase involves creating high-level architecture?", options: ["Planning", "Analysis", "System Design", "Implementation"], answer: "System Design", explanation: "System Design creates the high-level architecture and structure." },
-            { question: "A set of computers connected to share resources is a:", options: ["Database", "Processor", "Network", "Middleware"], answer: "Network", explanation: "A network connects computers to share r
+        // ==================== GAME STATE ====================
+        let currentMode = '';
+        let currentQuestion = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let answered = false;
+        let questions = [];
+
+        // ==================== NAVIGATION ====================
+        function startQuiz(mode) {
+            currentMode = mode;
+            currentQuestion = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            answered = false;
+
+            if (mode === 'tf') {
+                questions = tfQuestions;
+                document.getElementById('quiz-title').textContent = '✅❌ TRUE/FALSE -  Q 60 ';
+                document.getElementById('progress-fill').className = 'progress-fill progress-tf';
+                document.getElementById('restart-same-btn').className = 'restart-btn restart-tf';
+            } else {
+                questions = mcqQuestions;
+                document.getElementById('quiz-title').textContent = '📝 MCQ -  Q 50 ';
+                document.getElementById('progress-fill').className = 'progress-fill progress-mcq';
+                document.getElementById('restart-same-btn').className = 'restart-btn restart-mcq';
+            }
+
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('wrong-count').textContent = '0';
+
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('results-screen').classList.add('hidden');
+
+            renderQuestion();
+        }
+
+        function goHome() {
+            document.getElementById('home-screen').classList.remove('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.add('hidden');
+        }
+
+        // ==================== RENDER QUESTION ====================
+        function renderQuestion() {
+            answered = false;
+            const container = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            const totalQuestions = questions.length;
+
+            document.getElementById('current-question').textContent = `${currentQuestion + 1}/${totalQuestions}`;
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+
+            if (currentMode === 'tf') {
+                // Render True/False Question
+                container.innerHTML = `
+                    <div class="question-card" id="question-card">
+                        <div class="question-number question-number-tf">السؤال ${currentQuestion + 1} من ${totalQuestions}</div>
+                        <div class="question-text">${q.q}</div>
+                        <div class="tf-buttons">
+                            <button class="btn btn-true" onclick="answerTF(true)">✅ صح (True)</button>
+                            <button class="btn btn-false" onclick="answerTF(false)">❌ خطأ (False)</button>
+                        </div>
+                        <div class="feedback" id="feedback">
+                            <div class="feedback-title" id="feedback-title"></div>
+                            <div class="feedback-text" id="feedback-text"></div>
+                        </div>
+                        <button class="next-btn next-btn-tf" id="next-btn" onclick="nextQuestion()">السؤال التالي ←</button>
+                    </div>
+                `;
+            } else {
+                // Render MCQ Question
+                let optionsHtml = '';
+                q.options.forEach((opt, index) => {
+                    optionsHtml += `
+                        <button class="option-btn" id="option-${index}" onclick="answerMCQ(${index})">
+                            <span class="option-letter letter-mcq">${opt.letter}</span>
+                            ${opt.text}
+                        </button>
+                    `;
+                });
+
+                container.innerHTML = `
+                    <div class="question-card" id="question-card">
+                        <div class="question-number question-number-mcq">السؤال ${currentQuestion + 1} من ${totalQuestions}</div>
+                        <div class="question-text">${q.q}</div>
+                        <div class="options">
+                            ${optionsHtml}
+                        </div>
+                        <div class="feedback" id="feedback">
+                            <div class="feedback-title" id="feedback-title"></div>
+                            <div class="feedback-text" id="feedback-text"></div>
+                        </div>
+                        <button class="next-btn next-btn-mcq" id="next-btn" onclick="nextQuestion()">السؤال التالي ←</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== ANSWER HANDLERS ====================
+        function answerTF(userAnswer) {
+            if (answered) return;
+            answered = true;
+
+            const q = questions[currentQuestion];
+            const isCorrect = userAnswer === q.a;
+            const feedback = document.getElementById('feedback');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackText = document.getElementById('feedback-text');
+            const nextBtn = document.getElementById('next-btn');
+            const card = document.getElementById('question-card');
+
+            card.classList.add('answered');
+
+            const trueBtn = card.querySelector('.btn-true');
+            const falseBtn = card.querySelector('.btn-false');
+
+            if (q.a === true) {
+                trueBtn.classList.add('selected-correct');
+                if (!isCorrect) falseBtn.classList.add('selected-wrong');
+            } else {
+                falseBtn.classList.add('selected-correct');
+                if (!isCorrect) trueBtn.classList.add('selected-wrong');
+            }
+
+            showFeedback(isCorrect, q.exp);
+            trueBtn.disabled = true;
+            falseBtn.disabled = true;
+        }
+
+        function answerMCQ(selectedIndex) {
+            if (answered) return;
+            answered = true;
+
+            const q = questions[currentQuestion];
+            const isCorrect = selectedIndex === q.correct;
+
+            // Highlight all options
+            q.options.forEach((opt, index) => {
+                const btn = document.getElementById(`option-${index}`);
+                btn.disabled = true;
+
+                if (index === q.correct) {
+                    btn.classList.add('correct-answer');
+                } else if (index === selectedIndex && !isCorrect) {
+                    btn.classList.add('selected-wrong');
+                }
+            });
+
+            showFeedback(isCorrect, q.exp);
+        }
+
+        function showFeedback(isCorrect, explanation) {
+            const feedback = document.getElementById('feedback');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackText = document.getElementById('feedback-text');
+            const nextBtn = document.getElementById('next-btn');
+
+            feedback.style.display = 'block';
+            if (isCorrect) {
+                correctCount++;
+                feedback.className = 'feedback correct-answer';
+                feedbackTitle.innerHTML = '🎉 إجابة صحيحة!';
+                document.getElementById('correct-count').textContent = correctCount;
+            } else {
+                wrongCount++;
+                feedback.className = 'feedback wrong-answer';
+                feedbackTitle.innerHTML = '😕 إجابة خاطئة';
+                document.getElementById('wrong-count').textContent = wrongCount;
+            }
+
+            feedbackText.innerHTML = explanation;
+            nextBtn.style.display = 'inline-block';
+        }
+// ==================== NEXT QUESTION ====================
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= questions.length) {
+                showResults();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        // ==================== RESULTS ====================
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            const resultsScreen = document.getElementById('results-screen');
+            resultsScreen.classList.remove('hidden');
+
+            const totalQuestions = questions.length;
+            document.getElementById('final-score').textContent = `${correctCount}/${totalQuestions}`;
+
+            let message = '';
+            let emoji = '';
+            const percentage = (correctCount / totalQuestions) * 100;
+
+            if (percentage >= 90) {
+                emoji = '🏆';
+                message = 'أداء ممتاز! أنت خبير في تحليل وتصميم النظم! 🌟';
+            } else if (percentage >= 70) {
+                emoji = '🎉';
+                message = 'أداء جيد جداً! استمر في التقدم! 👏';
+            } else if (percentage >= 50) {
+                emoji = '👍';
+                message = 'أداء مقبول. راجع الدروس وحاول مرة أخرى! 📚';
+            } else {
+                emoji = '💪';
+                message = 'لا تيأس! راجع المادة وحاول مرة أخرى، أنت قادر! 🌟';
+            }
+
+            document.getElementById('result-emoji').textContent = emoji;
+            document.getElementById('result-message').textContent = message;
+
+            // Set score color based on mode
+            const scoreEl = document.getElementById('final-score');
+            scoreEl.className = 'final-score ' + (currentMode === 'tf' ? 'score-tf' : 'score-mcq');
+        }
+
+        // ==================== RESTART ====================
+        function restartQuiz() {
+            startQuiz(currentMode);
+        }
+    </script>
+</body>
+</html>
